@@ -119,6 +119,18 @@ img {
   text-align: center;
   font-weight: 100;
 }
+
+.go-login .link{
+  color: var(--txtColor);
+  font-weight: 400;
+  left: 0;
+  transition: 0.2s ease-in;
+}
+.go-login .link:hover{
+  color: #b1b6ff;
+  text-decoration: underline;
+  transition: 0.2s ease-in;
+}
 .login-form .go-register:hover,
 .go-login:hover {
   text-decoration: solid;

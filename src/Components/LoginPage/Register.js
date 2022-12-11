@@ -6,11 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 export default function Register() {
   const [input, setInput] = useState({
-    name: "Tien dan",
+    name: "",
     username: "",
     email: "",
     phonenumber: "",
     password: "",
+    status: 1,
   });
 
   const navigate = useNavigate();
@@ -21,9 +22,9 @@ export default function Register() {
 
   const register = (e) => {
     e.preventDefault();
-    console.log(input);
+
     axios
-      .post("http://localhost:8080/auth/register", input)
+      .post("http://localhost:8081/auth/register", input)
       .then((response) => {
         console.log(response);
         navigate("/login");
@@ -108,8 +109,10 @@ export default function Register() {
               Sign up
             </button>
             <p className="go-login">
-              <span>You have an account?</span>
-              <Link to="/login">Sign in</Link>
+              <span>You have an account? </span>
+              <Link className="link" to="/login">
+                SIGN IN
+              </Link>
             </p>
           </form>
         </div>
