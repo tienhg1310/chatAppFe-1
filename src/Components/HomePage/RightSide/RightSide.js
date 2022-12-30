@@ -1,14 +1,14 @@
 import React from 'react'
-import FormSendMessage from './FormSendMessage/FormSendMessage'
-import ListMessage from './ListMessage/ListMessage'
+import ChatMessage from './Message/ChatMessage'
+
 import UserContact from './UserContact/UserContact'
 
 export default function RightSide() {
     return (
         <div className='right-side'>
             <UserContact></UserContact>
-            <ListMessage></ListMessage>
-            <FormSendMessage></FormSendMessage>
+            <ChatMessage></ChatMessage>
+
         </div>
     )
 }

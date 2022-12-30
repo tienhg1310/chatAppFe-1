@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { toast } from "react-toastify";
+
+import { API_URL } from "../../common/config";
+
+
 export default function Register() {
   const [input, setInput] = useState({
     name: "",
-    username: "",
-    email: "",
-    phonenumber: "",
     password: "",
     status: 1,
   });
@@ -24,11 +24,12 @@ export default function Register() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8081/auth/register", input)
+      .post(`${API_URL}/auth/register`, input)
       .then((response) => {
         console.log(response);
         navigate("/login");
         toast.success("Register success");
+        navigate("/Login")
       })
       .catch((error) => {
         let data = error?.response?.data;
@@ -58,39 +59,6 @@ export default function Register() {
               placeholder="Your name"
               required
               value={input.name}
-              onChange={handleChange}
-            />
-
-            <input
-              type="text"
-              id="username"
-              name="username"
-              className="txt-input border"
-              placeholder="Username"
-              required
-              value={input.username}
-              onChange={handleChange}
-            />
-
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="txt-input border"
-              placeholder="Email"
-              required
-              value={input.email}
-              onChange={handleChange}
-            />
-
-            <input
-              type="phonenumber"
-              id="phonenumber"
-              name="phonenumber"
-              className="txt-input border"
-              placeholder="Phone number"
-              required
-              value={input.phonenumber}
               onChange={handleChange}
             />
 

@@ -120,13 +120,13 @@ img {
   font-weight: 100;
 }
 
-.go-login .link{
+.go-login .link {
   color: var(--txtColor);
   font-weight: 400;
   left: 0;
   transition: 0.2s ease-in;
 }
-.go-login .link:hover{
+.go-login .link:hover {
   color: #b1b6ff;
   text-decoration: underline;
   transition: 0.2s ease-in;
@@ -473,6 +473,7 @@ img {
     display: none;
     border-radius: 1rem;
   }
+  
 
   .conversation-container .right-side.active,
   .conversation-container .left-side.active {

@@ -4,11 +4,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { API_URL } from "../../common/config";
+import useChat from "../../common/useChat";
+
 export default function Login() {
   const [input, setInput] = useState({
     username: "",
     password: "",
   });
+
+  const {setUserSession} = useChat();
 
   const navigate = useNavigate();
 
@@ -18,11 +23,10 @@ export default function Login() {
 
   const login = (e) => {
     e.preventDefault();
-
     axios
-      .post("http://localhost:8081/auth/login", input)
+      .post(`${API_URL}/auth/login`, input)
       .then((response) => {
-        console.log(response);
+        setUserSession(response.data.id, input.username, response.data.accessToken)
         navigate("/Home");
         toast.success("Login success");
       })
@@ -35,6 +39,7 @@ export default function Login() {
         });
       });
   };
+
   return (
     <div className="container">
       <div className="form-container">

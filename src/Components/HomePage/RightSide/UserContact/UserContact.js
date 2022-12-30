@@ -1,6 +1,10 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react'
+import { useRecoilValue } from 'recoil';
+import { userLogin } from '../../../../recoil/socket.atom';
 
 export default function UserContact() {
+    const userLoged = useRecoilValue(userLogin);
     return (
         <div>
             <div className="user-contact">
@@ -10,10 +14,10 @@ export default function UserContact() {
                 <div className="user-contain">
                     <div className="user-img">
                         <img src="../img/user-male.jpg" alt="Image of user" />
-                        <div className="user-img-dot"></div>
+                        <div className="user-img-dot online"></div>
                     </div>
                     <div className="user-info">
-                        <span className="user-name">Tên bản thân</span>
+                        <span className="user-name">{userLoged.username}</span>
                     </div>
                 </div>
                
