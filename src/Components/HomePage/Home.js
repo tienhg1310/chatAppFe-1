@@ -3,19 +3,15 @@ import React, { useEffect } from "react";
 import LeftSide from "./LeftSide/LeftSide";
 import RightSide from "./RightSide/RightSide";
 import useChat from "../../common/useChat";
-import { useRecoilValue } from "recoil";
-import { userLogin } from "../../recoil/socket.atom";
 
 export default function Home() {
-  const { init } = useChat();
-  const userInfo = useRecoilValue(userLogin);
+  const { socket, init, destroy } = useChat();
 
-  // console.log(userInfo);
   useEffect(() => {
-    init(userInfo.id);
+    init();
 
- 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return destroy;
   }, []);
 
   return (
@@ -23,7 +19,7 @@ export default function Home() {
       <div className="container">
         <div className="conversation-container">
           <LeftSide></LeftSide>
-          <RightSide></RightSide>
+          {socket.selectedId && <RightSide></RightSide>}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
+import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
@@ -25,7 +26,7 @@ export default function LeftSide() {
     } else {
       axios
         .get(`${API_URL}/fetchAllUsers/${userLoged.id}`, {
-          headers: { 'Authorization': `Bearer ${userLoged.accessToken}` },
+          headers: { Authorization: `Bearer ${userLoged.accessToken}` },
         })
         .then((res) => {
           // console.log(res);
@@ -46,7 +47,7 @@ export default function LeftSide() {
     } else {
       axios
         .get(`${API_URL}/fetchAllGroups/${userLoged.id}`, {
-          headers: { 'Authorization': `Bearer ${userLoged.accessToken}` },
+          headers: { Authorization: `Bearer ${userLoged.accessToken}` },
         })
         .then((res) => {
           setUsersOrGroups([]);
@@ -59,7 +60,13 @@ export default function LeftSide() {
     }
   };
 
-  const { setSelectedId } = useChat();
+  const { setSelectedUser, socket, subscribeTopic, unsubscribeTopic } = useChat();
+  const { getMessage } = useChat();
+
+  useEffect(() => {
+    subscribeTopic();
+    return unsubscribeTopic;
+  }, [socket.selectedId, subscribeTopic, unsubscribeTopic]);
 
   return (
     <div className="left-side">
@@ -82,9 +89,11 @@ export default function LeftSide() {
           {usersOrGroups.map((userOrGroup) => (
             <li
               key={userOrGroup.id}
+              data-userid={userOrGroup.id}
+              type={isActiveUserOrGroup ? "user" : "group"}
               onClick={() => {
-                setSelectedId(userOrGroup.id);
-                // console.log('selected id' + userOrGroup.id)
+                setSelectedUser(userOrGroup.id, isActiveUserOrGroup ? "user" : "group");
+                getMessage(userLoged.id, userOrGroup.id, isActiveUserOrGroup ? "user" : "group");
               }}>
               <div className="user-contain">
                 <div className="user-img">

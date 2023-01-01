@@ -3,9 +3,13 @@ import { atom } from "recoil";
 export const socketState = atom({
   key: "socket", // unique ID (with respect to other atoms/selectors)
   default: {
-    stompClient: null,
     selectedId: "",
+    type: "",
   }, // default value (aka initial value)
+});
+export const stompClientState = atom({
+  key: "stompClientState",
+  default: null,
 });
 
 export const userLogin = atom({
@@ -13,6 +17,11 @@ export const userLogin = atom({
   default: {
     id: null,
     username: "",
-    accessToken: ""
-  }
-})
+    accessToken: "",
+  },
+});
+
+export const messagesChat = atom({
+  key: "messagesChat",
+  default: [],
+});

@@ -340,7 +340,7 @@ img {
   display: flex;
   align-items: center;
   overflow-y: auto;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .message.right {
@@ -375,6 +375,12 @@ img {
 
 .message-text > * {
   max-width: 100%;
+}
+.message-user {
+  font-size: 1.2rem;
+  color: #111111;
+  padding-left: 10px;
+  padding-top: 4px;
 }
 
 .message.right .message-text {
@@ -473,7 +479,6 @@ img {
     display: none;
     border-radius: 1rem;
   }
-  
 
   .conversation-container .right-side.active,
   .conversation-container .left-side.active {
