@@ -39,41 +39,10 @@ export default function ChatMessage() {
                   <img src="../img/user-male.jpg" alt="" />
                 </div>
                 <div className="message-text">{message.messageText || message.messages}</div>
+                {message.user_id ? <div className="message-name">{message.user_id}</div> : ""}
               </div>
             </li>
           ))}
-          {/* <li>
-            <div className="message">
-              <div className="message-img">
-                <img src="../img/user-male.jpg" alt="" />
-              </div>
-              <div className="message-text">Hello, How are you?</div>
-            </div>
-          </li>
-          <li>
-            <div className="message right">
-              <div className="message-img">
-                <img src="../img/user-male.jpg" alt="" />
-              </div>
-              <div className="message-text">Hello, How are you?</div>
-            </div>
-          </li>
-          <li>
-            <div className="message right">
-              <div className="message-img">
-                <img src="../img/user-male.jpg" alt="" />
-              </div>
-              <div className="message-text">Hello, How are you?</div>
-            </div>
-          </li>
-          <li>
-            <div className="message">
-              <div className="message-img">
-                <img src="../img/user-male.jpg" alt="" />
-              </div>
-              <div className="message-text">Hello, How are you?</div>
-            </div>
-          </li> */}
         </ul>
       </div>
       <div>
@@ -93,14 +62,7 @@ export default function ChatMessage() {
               }
             }}
           />
-          {/* <label className="btn btn-image" htmlFor="attach">
-            <i className="fa fa-file"></i>
-          </label>
-          <input type="file" multiple id="attach" />
-          <label className="btn btn-image" htmlFor="image">
-            <i className="fa fa-file-image-o"></i>
-          </label> */}
-          {/* <input type="file" accept="image/*" multiple id="image" /> */}
+
           <button className="btn btn-send" onClick={submit}>
             <i className="fa fa-paper-plane"></i>
           </button>

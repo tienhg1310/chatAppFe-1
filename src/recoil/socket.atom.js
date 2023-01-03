@@ -25,3 +25,8 @@ export const messagesChat = atom({
   key: "messagesChat",
   default: [],
 });
+
+export const userOrGroupStatusState = atom({
+  key: "userOrGroupStatusState",
+  default: [],
+})

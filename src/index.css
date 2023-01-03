@@ -340,7 +340,8 @@ img {
   display: flex;
   align-items: center;
   overflow-y: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
+  margin-top: 1rem;
 }
 
 .message.right {
@@ -355,6 +356,11 @@ img {
   width: 3rem;
   height: 3rem;
   margin-right: 0.5rem;
+}
+.message-name{
+  color: #474ed1;
+  font-size: 1.1rem;
+  order: 3;
 }
 
 .message-img img {

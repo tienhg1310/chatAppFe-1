@@ -4,7 +4,7 @@ import { Stomp } from "@stomp/stompjs";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 
-import { messagesChat, socketState, stompClientState, userLogin } from "../recoil/socket.atom";
+import { messagesChat, socketState, stompClientState, userLogin, userOrGroupStatusState } from "../recoil/socket.atom";
 import { API_URL } from "./config";
 
 export default function useChat() {
@@ -12,6 +12,7 @@ export default function useChat() {
   const [stompClient, setStompClient] = useRecoilState(stompClientState);
   const [userOnLogin, setUserOnLogin] = useRecoilState(userLogin);
   const [messagesChatState, setMessagesChatState] = useRecoilState(messagesChat);
+  const [messageUserOrGroupStatus, setMessageUserOrGroupStatus] = useRecoilState(userOrGroupStatusState);
 
   const setUserSession = (id, username, accessToken) => {
     setUserOnLogin((v) => ({
@@ -21,6 +22,9 @@ export default function useChat() {
       accessToken: accessToken,
     }));
   };
+
+
+
 
   const getMessage = (userId, selectedId, type) => {
     if (type === "user") {
@@ -45,6 +49,7 @@ export default function useChat() {
         })
         .then((response) => {
           setMessagesChatState(response.data);
+          
         });
     }
   };
@@ -54,17 +59,28 @@ export default function useChat() {
   };
 
   const sendMessage = (text) => {
-    global.window.stompClient.send(
-      "/app/chat/" + socket.selectedId,
-      {},
-      JSON.stringify({
-        fromLogin: userOnLogin.id,
-        message: text,
-      })
-    );
+    if(socket.type === "user"){
+      global.window.stompClient.send(
+        "/app/chat/" + socket.selectedId,
+        {},
+        JSON.stringify({
+          fromLogin: userOnLogin.id,
+          message: text,
+        })
+      );
+    }else if (socket.type === "group") {
+      global.window.stompClient.send(
+        "/app/chat/group/" + socket.selectedId,
+        {},
+        JSON.stringify({
+          fromLogin: userOnLogin.id,
+          message: text,
+        })
+      );
+    }
   };
 
-  const subscribeTopic = () => {
+  const subscribeTopicUser = () => {
     if (!global.window.stompClient) return;
     global.window.subscribeTopic = global.window.stompClient.subscribe(
       "/topic/messages/" + userOnLogin.id,
@@ -77,8 +93,33 @@ export default function useChat() {
             return [...v, data];
           });
         } else {
-          console.log("new message", response.body);
+          setMessageUserOrGroupStatus((v) => {
+            return [...v, {id: data.messageTo, noti: "new message"}]
+          })
+          
         }
+      }
+    );
+  };
+
+  const subscribeTopicGroup = () => {
+    if (!global.window.stompClient) return;
+    global.window.subscribeTopic = global.window.stompClient.subscribe(
+      "/topic/messages/group/" + socket.selectedId,
+      (response) => {
+        let data = JSON.parse(response.body);
+        console.log("data" + data.user_id);
+          if(socket.selectedId === data.group_id){
+            setMessagesChatState((v) => {
+              return [...v, data];
+            });
+          }else{
+            setMessageUserOrGroupStatus((v) => {
+              return [...v, {id: data.group_id, noti: "new message"}]
+            })
+          }
+          
+
       }
     );
   };
@@ -122,7 +163,8 @@ export default function useChat() {
 
   return {
     socket,
-    subscribeTopic,
+    subscribeTopicUser,
+    subscribeTopicGroup,
     unsubscribeTopic,
     init,
     destroy,

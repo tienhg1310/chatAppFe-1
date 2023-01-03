@@ -60,13 +60,17 @@ export default function LeftSide() {
     }
   };
 
-  const { setSelectedUser, socket, subscribeTopic, unsubscribeTopic } = useChat();
+  const { setSelectedUser, socket, subscribeTopicUser,subscribeTopicGroup, unsubscribeTopic } = useChat();
   const { getMessage } = useChat();
 
   useEffect(() => {
-    subscribeTopic();
+    if(socket.type === "user"){
+    subscribeTopicUser();
+    }else{
+      subscribeTopicGroup();
+    }
     return unsubscribeTopic;
-  }, [socket.selectedId, subscribeTopic, unsubscribeTopic]);
+  }, [socket.selectedId, subscribeTopicUser,subscribeTopicGroup, unsubscribeTopic]);
 
   return (
     <div className="left-side">
@@ -92,9 +96,12 @@ export default function LeftSide() {
               data-userid={userOrGroup.id}
               type={isActiveUserOrGroup ? "user" : "group"}
               onClick={() => {
+
                 setSelectedUser(userOrGroup.id, isActiveUserOrGroup ? "user" : "group");
                 getMessage(userLoged.id, userOrGroup.id, isActiveUserOrGroup ? "user" : "group");
-              }}>
+              }}
+              className = {socket.selectedId === userOrGroup.id ? "active" : ""}
+              >
               <div className="user-contain">
                 <div className="user-img">
                   <img src="../img/user-male.jpg" alt="Image of user" />
